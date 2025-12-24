@@ -1,0 +1,106 @@
+<div class="container mt-4">
+  <h3 class="mb-4">Manage Students</h3>
+
+  <!-- ===============================
+       ADD STUDENT FORM
+  ================================ -->
+  <div class="card mb-4 p-3">
+    <div class="card-header">Add New Student</div>
+    <div class="card-body">
+      <div class="row g-3">
+
+        <!-- Student Name -->
+        <div class="col-md-4">
+          <label class="form-label">Student Name</label>
+          <input class="form-control" placeholder="Enter name"
+                 [(ngModel)]="student_name">
+        </div>
+
+        <!-- Date of Birth -->
+        <div class="col-md-3">
+          <label class="form-label">Date of Birth</label>
+          <input type="date" class="form-control"
+                 [(ngModel)]="dob">
+        </div>
+
+        <!-- Username -->
+        <div class="col-md-3">
+          <label class="form-label">Username</label>
+          <input class="form-control" placeholder="Enter username"
+                 [(ngModel)]="username">
+        </div>
+
+        <!-- Password -->
+        <div class="col-md-2">
+          <label class="form-label">Password</label>
+          <input type="password" class="form-control" placeholder="Password"
+                 [(ngModel)]="password">
+        </div>
+
+      </div>
+
+      <div class="row g-3 mt-3">
+        <!-- Department -->
+        <div class="col-md-6">
+          <label class="form-label">Department</label>
+          <select class="form-select" [(ngModel)]="dept_id">
+            <option value="">Select Department</option>
+            @for (dept of departments(); track dept.dept_id) {
+              <option [value]="dept.dept_id">{{dept.dept_name}}</option>
+            }
+          </select>
+        </div>
+
+        <!-- Class -->
+        <div class="col-md-6">
+          <label class="form-label">Class</label>
+          <select class="form-select" [(ngModel)]="class_id">
+            <option value="">Select Class</option>
+            @for (cls of classes(); track cls.class_id) {
+              @if (cls.dept_id == dept_id) {
+                <option [value]="cls.class_id">{{cls.class_name}}</option>
+              }
+            }
+          </select>
+        </div>
+      </div>
+
+      <button class="btn btn-success mt-3" (click)="addStudent()">
+        Add Student
+      </button>
+    </div>
+  </div>
+
+  <!-- ===============================
+       STUDENT LIST
+  ================================ -->
+
+  <table class="table table-bordered">
+    <thead class="table-light">
+      <tr>
+        <th>SI.No</th>
+        <th>ST:ID</th>
+        <th>Student Name</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (s of students(); track s.student_id ; let i=$index) {
+        <tr>
+          <td>{{i+1}}</td>
+          <td>{{s.student_id}}</td>
+          <td>{{s.student_name}}</td>
+          <td>
+            <button class="btn btn-danger btn-sm" (click)="deleteStudent(s.student_id)">
+              Delete
+            </button>
+          </td>
+        </tr>
+      }@empty {
+<tr class="alert alert-info">
+No students found.
+</tr>
+      }
+    </tbody>
+  </table>
+</div>
